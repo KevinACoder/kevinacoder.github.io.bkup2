@@ -8,12 +8,15 @@ title: LeetCode专题-二叉索引树(Binary Index Tree/Fenwick Tree)
 > A Fenwick tree or binary indexed tree is a data structure that can efficiently update elements and calculate prefix sums in a table of numbers. This structure was proposed by Peter Fenwick in 1994 to improve the efficiency of arithmetic coding compression algorithms.
 
 二叉搜索树(BIT)可以用于维护和查询区间信息，它可以在O(logn)的时间复杂度下求出区间和。
+
 [在线示例](https://visualgo.net/zh/fenwicktree)
-[一棵Fenwick树]！(https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/BITDemo.gif/300px-BITDemo.gif)
+
+[一棵Fenwick树]!(https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/BITDemo.gif/300px-BITDemo.gif)
 
 在建立和更新数组时，从左向右，从叶子节点向根节点依次求和。
-在查询区间和时，从右向左
+在查询区间和时，从右向左，求出前缀和的差值。
 
+下面是BIT的C和C++实现。
 ```c
 #define LSB(i) ((i) & -(i)) // zeroes all the bits except the least significant one
 
