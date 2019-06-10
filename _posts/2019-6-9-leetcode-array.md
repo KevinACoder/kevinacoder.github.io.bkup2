@@ -84,3 +84,74 @@ Details
 Runtime: 4 ms, faster than 94.67% of C++ online submissions for Rotate Image.
 Memory Usage: 9 MB, less than 71.33% of C++ online submissions for Rotate Image.
 ```
+
+## 218. The Skyline Problem
+
+Hard
+
+A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Now suppose you are given the locations and height of all the buildings as shown on a cityscape photo (Figure A), write a program to output the skyline formed by these buildings collectively (Figure B).
+Buildings Skyline Contour
+[A]!(https://assets.leetcode.com/uploads/2018/10/22/skyline1.png)
+[B]!(https://assets.leetcode.com/uploads/2018/10/22/skyline2.png)
+
+The geometric information of each building is represented by a triplet of integers [Li, Ri, Hi], where Li and Ri are the x coordinates of the left and right edge of the ith building, respectively, and Hi is its height. It is guaranteed that 0 ≤ Li, Ri ≤ INT_MAX, 0 < Hi ≤ INT_MAX, and Ri - Li > 0. You may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.
+
+For instance, the dimensions of all buildings in Figure A are recorded as: [ [2 9 10], [3 7 15], [5 12 12], [15 20 10], [19 24 8] ] .
+
+The output is a list of "key points" (red dots in Figure B) in the format of [ [x1,y1], [x2, y2], [x3, y3], ... ] that uniquely defines a skyline. A key point is the left endpoint of a horizontal line segment. Note that the last key point, where the rightmost building ends, is merely used to mark the termination of the skyline, and always has zero height. Also, the ground in between any two adjacent buildings should be considered part of the skyline contour.
+
+For instance, the skyline in Figure B should be represented as:[ [2 10], [3 15], [7 12], [12 0], [15 10], [20 8], [24, 0] ].
+
+Notes:
+
+    The number of buildings in any input list is guaranteed to be in the range [0, 10000].
+    The input list is already sorted in ascending order by the left x position Li.
+    The output list must be sorted by the x position.
+    There must be no consecutive horizontal lines of equal height in the output skyline. For instance, [...[2 3], [4 5], [7 5], [11 5], [12 7]...] is not acceptable; the three lines of height 5 should be merged into one in the final output as such: [...[2 3], [4 5], [12 7], ...]
+
+题目大意：按照[start, end, height]给定一个城市中每个建筑的轮廓，要求求出这个城市的天际线，并以[start, height]标出所有水平线的开端点。
+
+解题思路：扫描数组，但是当用例中存在极端宽的建筑时，内存肯定是不够的
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+       long width = 0, low = 0, high = 0;
+        for(auto & building : buildings){
+            low = min(low, (long)building[0]);
+            high = max(high, (long)building[1]);
+        }
+        width = high - low + 1;
+        vector<long> skyLine(width, 0);
+        for(auto & building : buildings){
+            /*replace_if(skyLine.begin() + building[0], skyLine.begin() + building[1], 
+                bind2nd(greater<int>(), width), width);*/
+            for(long i = building[0]; i < building[1]; i++){
+                skyLine[i] = max((long)building[2],skyLine[i]);
+            }
+        }
+
+        vector<vector<int>> ans;
+        for(int i = 1; i < skyLine.size(); i++){
+            if(i == skyLine.size()-1 || skyLine[i] != skyLine[i-1]){
+                ans.push_back(vector<int>{i + (int)low, (int)skyLine[i]});
+            }
+        }
+        return move(ans);             
+    }
+};
+```
+测试一下，
+```
+Your input
+[[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]
+0 | 10 | 15 | 15 | 15 | 15 | 12 | 12 | 12 | 12 | 12 | 0 | 0 | 0 | 10 | 10 | 10 | 10 | 10 | 8 | 8 | 8 | 8 | 0 | 
+Output
+[[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
+Expected
+[[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]
+
+Last executed input (Runtime error)
+[[0,2147483647,2147483647]]
+```
