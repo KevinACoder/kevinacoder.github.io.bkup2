@@ -3,6 +3,11 @@ layout: post
 title: LeetCode专题-深度优先搜索
 ---
 
+## 目录
+425. Word Squares
+39. Combination Sum
+40. Combination Sum II
+
 ## 425. Word Squares
 
 Given a set of words (without duplicates), find all word squares you can build from them.
@@ -23,8 +28,7 @@ Note:
     Word length is at least 1 and at most 5.
     Each word contains only lowercase English alphabet a-z.
 
- 
-
+ ```
 Example 1:
 
 Input:
@@ -43,7 +47,7 @@ Output:
     "lady"
   ]
 ]
-
+```
 Explanation:
 The output consists of two word squares. The order of output does not matter (just the order of words in each word square matters).
 
