@@ -3,6 +3,11 @@ layout: post
 title: LeetCode专题-模拟计算
 ---
 
+## 目录
+419. Battleships in a Board
+43. Multiply Strings
+54. Spiral Matrix
+
 ## 419. Battleships in a Board
 
 Medium
@@ -138,4 +143,99 @@ Success
 Details
 Runtime: 4 ms, faster than 98.40% of C++ online submissions for Multiply Strings.
 Memory Usage: 9 MB, less than 61.35% of C++ online submissions for Multiply Strings.
+```
+
+## 54. Spiral Matrix
+
+Medium
+
+Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+
+```
+Example 1:
+
+Input:
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+Output: [1,2,3,6,9,8,7,4,5]
+
+Example 2:
+
+Input:
+[
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9,10,11,12]
+]
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+```
+
+题目大意：以顺时针螺旋的方式打印一个矩阵。
+
+解题思路：模拟顺时针读矩阵的过程，方向：右-下-左-上-右...，用四条边界来控制读的停止。
+
+```c++
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ans;
+        if(matrix.size() == 0) //empty matrix
+            return ans;
+        int x = 0, y = 0, d = 0;
+        int total = matrix.size()*matrix[0].size();
+        int right = matrix[0].size() - 1, left = 0, up = 0, down = matrix.size() - 1;
+        //print until all elements have been printed
+        while(ans.size() < total){
+            switch(d){
+                case 0: //to right
+                    if(y == right){
+                        d = (d+1)%4; //change move direction
+                        up++; //the uppest row is removed from next loop of reading
+                    }else{
+                        ans.push_back(matrix[x][y]);
+                        y++; //print and advance
+                    }
+                    break;
+                case 1: //to down
+                    if(x == down){
+                        d = (d+1)%4;
+                        right--;
+                    }else{
+                        ans.push_back(matrix[x][y]);
+                        x++;
+                    }
+                    break;
+                case 2: //to left
+                    if(y == left){
+                        d = (d+1)%4;
+                        down--;
+                    }else{
+                        ans.push_back(matrix[x][y]);
+                        y--;
+                    }
+                    break;
+                case 3: //to up
+                    if(x == up){
+                        d = (d+1)%4;
+                        left++;
+                    }else{
+                        ans.push_back(matrix[x][y]);
+                        x--;
+                    }
+                    break;
+            }
+        }
+        return move(ans);        
+    }
+};
+```
+测试一下，
+```
+Success
+Details
+Runtime: 0 ms, faster than 100.00% of C++ online submissions for Spiral Matrix.
+Memory Usage: 8.7 MB, less than 40.35% of C++ online submissions for Spiral Matrix.
 ```
