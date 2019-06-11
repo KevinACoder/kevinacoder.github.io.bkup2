@@ -7,6 +7,7 @@ title: LeetCode专题-模拟计算
 419. Battleships in a Board
 43. Multiply Strings
 54. Spiral Matrix
+59. Spiral Matrix II
 
 ## 419. Battleships in a Board
 
@@ -238,4 +239,90 @@ Success
 Details
 Runtime: 0 ms, faster than 100.00% of C++ online submissions for Spiral Matrix.
 Memory Usage: 8.7 MB, less than 40.35% of C++ online submissions for Spiral Matrix.
+```
+
+## 59. Spiral Matrix II
+
+Medium
+
+Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+
+```
+Example:
+
+Input: 3
+Output:
+[
+ [ 1, 2, 3 ],
+ [ 8, 9, 4 ],
+ [ 7, 6, 5 ]
+]
+```
+
+题目大意：对一个nxn的矩阵，以顺时针螺旋的方式赋值。
+
+解题思路：思路与上题相同，只是遍历过程中处理的方式有差异。
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        if(n <= 0)
+            return vector<vector<int>>();
+
+        vector<vector<int>> ans(n, vector<int>(n, 0));
+        int total = n*n, cnt = 0, d = 0;
+        int right = n - 1, left = 0, up = 0, down = n - 1;
+        int x = 0, y = 0;
+        while(cnt < total){
+            switch(d){
+                case 0:
+                    if(y == right){
+                        d = (d+1)%4;
+                        up++;
+                    }else{
+                        ans[x][y] = ++cnt; //assign value
+                        y++;
+                    }
+                    break;
+                case 1:
+                    if(x == down){
+                        d = (d+1)%4;
+                        right--;
+                    }else{
+                        ans[x][y] = ++cnt;
+                        x++;
+                    }
+                    break;
+                case 2:
+                    if(y == left){
+                        d = (d+1)%4;
+                        down--;
+                    }else{
+                        ans[x][y] = ++cnt;
+                        y--;
+                    }
+                    break;
+                case 3:
+                    if(x == up){
+                        d = (d+1)%4;
+                        left++;
+                    }else{
+                        ans[x][y] = ++cnt;
+                        x--;
+                    }
+                    break;
+            }
+        }    
+
+        return move(ans);        
+    }
+};
+```
+测试一下，
+```
+Success
+Details
+Runtime: 4 ms, faster than 92.05% of C++ online submissions for Spiral Matrix II.
+Memory Usage: 9 MB, less than 50.82% of C++ online submissions for Spiral Matrix II.
 ```
