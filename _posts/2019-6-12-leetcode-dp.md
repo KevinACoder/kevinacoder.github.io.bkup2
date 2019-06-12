@@ -8,7 +8,8 @@ title: LeetCode专题-动态规划
 55. Jump Game
 45. Jump Game II
 
-55. Jump Game
+## 55. Jump Game
+
 Medium
 
 Given an array of non-negative integers, you are initially positioned at the first index of the array.
