@@ -3,6 +3,12 @@ layout: post
 title: LeetCode专题-数组和矩阵
 ---
 
+## 目录
+
+48. Rotate Image
+218. The Skyline Problem
+56. Merge Intervals
+
 ## 48. Rotate Image
 
 Medium
@@ -154,4 +160,68 @@ Expected
 
 Last executed input (Runtime error)
 [[0,2147483647,2147483647]]
+```
+
+## 56. Merge Intervals
+
+Medium
+
+Given a collection of intervals, merge all overlapping intervals.
+
+```
+Example 1:
+
+Input: [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+
+Example 2:
+
+Input: [[1,4],[4,5]]
+Output: [[1,5]]
+Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+
+NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
+```
+
+题目大意：给一系列区间对，合并其中相交的区间，输出合成的大区间。
+
+解题思路：先将区间进行排序，然后遍历区间进行合并。
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if(intervals.size() < 2){ //no need to do merge
+            return intervals;
+        }
+        //sort intervals in ascending order
+        sort(intervals.begin(), intervals.end(), [](vector<int> &lhs, vector<int> &rhs){
+            return lhs[0] < rhs[0] || (lhs[0] == rhs[0] && lhs[1] < rhs[1]);
+        });
+        vector<vector<int>> ans;
+        //[start, end] is the interval to be merge
+        int start = intervals[0][0], end = intervals[0][1];
+        for(int i = 1; i < intervals.size(); i++){
+            if(intervals[i][0] <= end){
+                //interval i can be merged
+                end = max(intervals[i][1], end);
+            }else{
+                //cannot merge, make new interval
+                ans.push_back(vector<int>{start, end});
+                start = intervals[i][0];
+                end = max(intervals[i][1], end);
+            }
+        }
+        ans.push_back(vector<int>{start, end});
+        return move(ans);        
+    }
+};
+```
+测试一下
+```
+Success
+Details
+Runtime: 16 ms, faster than 78.11% of C++ online submissions for Merge Intervals.
+Memory Usage: 12.6 MB, less than 13.42% of C++ online submissions for Merge Intervals.
 ```
