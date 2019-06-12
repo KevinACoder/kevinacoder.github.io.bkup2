@@ -7,6 +7,8 @@ title: LeetCode专题-动态规划
 
 55. Jump Game
 45. Jump Game II
+62. Unique Paths
+63. Unique Paths II
 
 ## 55. Jump Game
 
@@ -129,3 +131,150 @@ Details
 Runtime: 12 ms, faster than 88.80% of C++ online submissions for Jump Game II.
 Memory Usage: 10.4 MB, less than 47.05% of C++ online submissions for Jump Game II.
 ```
+
+## 62. Unique Paths
+
+Medium
+
+A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+How many possible unique paths are there?
+
+![Above is a 7 x 3 grid. How many possible unique paths are there?](https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png)
+
+Note: m and n will be at most 100.
+
+```
+Example 1:
+
+Input: m = 3, n = 2
+Output: 3
+Explanation:
+From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
+1. Right -> Right -> Down
+2. Right -> Down -> Right
+3. Down -> Right -> Right
+
+Example 2:
+
+Input: m = 7, n = 3
+Output: 28
+```
+题目大意：一个机器人在mxn的棋盘中的左上角出发，前往右下角，要求求出有多少条不同的路可以走。
+
+解题思路：利用动态规划，将到达每一个格子可以走的路记录。
+
+```c++
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+       vector<vector<int>> dp(m, vector<int>(n, 0));
+       //only one path to reach the first col
+       for(int i = 0; i < m; i++){
+           dp[i][0] = 1;
+        } 
+
+        //only one path to reach the first row
+        for(int j = 0; j < n; j++){
+           dp[0][j] = 1;
+        }
+
+         //two path to reach the rest cell, from up and from left
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+
+        return dp[m-1][n-1];        
+    }
+};
+```
+测试一下，
+```
+Success
+Details
+Runtime: 4 ms, faster than 85.41% of C++ online submissions for Unique Paths.
+Memory Usage: 8.8 MB, less than 19.03% of C++ online submissions for Unique Paths.
+```
+
+## 63. Unique Paths II
+
+Medium
+
+A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+
+An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+
+Note: m and n will be at most 100.
+
+```
+Example 1:
+
+Input:
+[
+  [0,0,0],
+  [0,1,0],
+  [0,0,0]
+]
+Output: 2
+Explanation:
+There is one obstacle in the middle of the 3x3 grid above.
+There are two ways to reach the bottom-right corner:
+1. Right -> Right -> Down -> Down
+2. Down -> Down -> Right -> Right
+```
+
+题目大意：在上题的基础上，棋盘中的一些格子有障碍物不能到达。
+
+解题思路：在上题的解法上，遍历时对有障碍物的格子进行特殊处理。
+
+```c++
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid){
+        int m = obstacleGrid.size();
+        if (m == 0)
+            return 0;
+        int n = obstacleGrid[0].size();
+
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        for (int i = 0; i < m; i++){
+            if(obstacleGrid[i][0] == 1){
+                break;
+            }else{
+                dp[i][0] = 1;
+            }
+        }
+
+        for (int j = 0; j < n; j++){
+            if(obstacleGrid[0][j] == 1){
+                break;
+            }else{
+                dp[0][j] = 1;
+            }
+        }
+
+        for (int i = 1; i < m; i++){
+            for (int j = 1; j < n; j++){
+                if(obstacleGrid[i][j] == 1){
+                    dp[i][j] = 0;
+                }else{
+                    //cout << dp[i - 1][j] << " "<< dp[i][j - 1] << endl;
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                    //dp.at(i).at(j) = dp.at(i-1).at(j) + dp.at(i).at(j-1);
+                }
+            }
+        }
+
+        return dp[m - 1][n - 1];        
+    }    
+};
+```
+
