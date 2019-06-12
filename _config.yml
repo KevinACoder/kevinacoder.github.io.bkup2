@@ -18,14 +18,14 @@ avatar: https://raw.githubusercontent.com/KevinACoder/kevinacoder.github.io/mast
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email: kevzhu92@gmail.com
+  email: zhugy92@163.com
   facebook:
   flickr:
   github: kevinacoder
   instagram:
   linkedin:
   pinterest:
-  rss: # just type anything here for a working RSS icon
+  rss: https://www.jianshu.com/u/a0839bc8e7b4 # just type anything here for a working RSS icon
   twitter:
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
@@ -70,7 +70,7 @@ kramdown:
 
 # Set the Sass partials directory, as we're using @imports
 sass:
-  style: :expanded # You might prefer to minify using :compressed
+  style: :compressed # You might prefer to minify using :compressed
 
 # Use the following plug-ins
 gems:

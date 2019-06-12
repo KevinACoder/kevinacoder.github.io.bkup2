@@ -12,4 +12,4 @@ permalink: /about/
 
 ### Contact me
 
-[kevchu92@gmail.com](mailto:kevchu92@gmail.com)
+[zhugy92@163.com](mailto:zhugy92@163.com)

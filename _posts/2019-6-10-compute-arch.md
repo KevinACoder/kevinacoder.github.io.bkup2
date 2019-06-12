@@ -45,3 +45,44 @@ title: Linux ARM嵌入式系统笔记
 
 硬盘/Flash -> 内存RAM -> 高速缓存Cache -> CPU寄存器
 
+##### --总线系统
+
+总线标准包括$I^2C$，SPI和PCI等。总线种类包括，
+. DataBus, 从外部设备读写数据
+. AddressBus, 向外部设备发送地址
+. CtrlBus，向外部设备发送控制信息
+
+##### --输入输出系统
+
+CPU访问外部设备的方式，
+. 轮询，影响指令执行，效率低
+. 中断控制，响应中断信号，效率高
+. DMA(Direct Memory Access)，适合大量数据传输
+
+# ARM处理器与Raspberry Pi
+
+## ARM体系结构命名
+
+```
+pi@raspberrypi:~ $ uname -a
+Linux raspberrypi 4.14.98-v7+ #1200 SMP Tue Feb 12 20:27:48 GMT 2019 armv7l GNU/Linux
+```
+
+## 开发环境构建
+
+##### --安装/卸载软件
+
+更新apt软件源
+```shell
+sudo apt-get update
+sudo apt-get upgrade -y
+```
+安装主要打包工具
+```shell
+sudo apt-get install build-essential
+gcc --version
+gdb --version
+```
+
+## shell指令
+
